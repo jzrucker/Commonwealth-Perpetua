@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commonwealth Perpetua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #0E1C14;
+  --forest: #1A3C2A;
+  --moss: #2D5A3D;
+  --gold: #8B6914;
+  --gold-light: #C4992A;
+  --parchment: #F5F0E8;
+  --cream: #FAFAF5;
+  --stone: #8A8A7A;
+  --border: rgba(139, 105, 20, 0.25);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.4rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(139, 105, 20, 0.15);
+  background: rgba(14, 28, 20, 0.92);
+  backdrop-filter: blur(12px);
+}
+
+.nav-logo {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+  color: var(--parchment);
+  text-decoration: none;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.nav-logo svg {
+  width: 28px;
+  height: 18px;
+  opacity: 0.85;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--stone);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--gold-light); }
+
+.nav-cta {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  text-decoration: none;
+  border: 1px solid var(--gold);
+  padding: 0.5rem 1.4rem;
+  transition: all 0.3s;
+}
+
+.nav-cta:hover { background: var(--gold); color: var(--ink); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 4rem 6rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(ellipse, rgba(42, 90, 61, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.hero-eyebrow {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.2s;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3.5rem, 7vw, 7rem);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--parchment);
+  max-width: 14ch;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards 0.4s;
+}
+
+.hero-title em { font-style: italic; color: var(--gold-light); }
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--stone);
+  max-width: 52ch;
+  margin-bottom: 3.5rem;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards 0.6s;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards 0.8s;
+}
+
+.btn-primary {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--ink);
+  padding: 1rem 2.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+  display: inline-block;
+}
+
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+.btn-secondary {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--stone);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: color 0.3s;
+}
+
+.btn-secondary:hover { color: var(--parchment); }
+.btn-secondary::after { content: '→'; transition: transform 0.3s; }
+.btn-secondary:hover::after { transform: translateX(4px); }
+
+/* STATS BAR */
+.stats-bar {
+  background: rgba(26, 60, 42, 0.3);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2.5rem 4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.stat {
+  text-align: center;
+  padding: 0 1rem;
+  border-right: 1px solid var(--border);
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-number {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.8rem;
+  font-weight: 300;
+  color: var(--gold-light);
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.stat-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+/* SECTIONS */
+section { padding: 7rem 4rem; position: relative; }
+
+.section-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+  display: block;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--parchment);
+  margin-bottom: 1.5rem;
+}
+
+.section-title em { font-style: italic; color: var(--gold-light); }
+
+/* PROBLEM */
+.problem {
+  background: var(--forest);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.problem-body {
+  font-size: 1.05rem;
+  color: rgba(245, 240, 232, 0.75);
+  line-height: 1.9;
+}
+
+.problem-body p + p { margin-top: 1.2rem; }
+.problem-body strong { color: var(--parchment); font-weight: 500; }
+
+.callout-stack { display: flex; flex-direction: column; gap: 1rem; }
+
+.callout-card {
+  background: rgba(14, 28, 20, 0.6);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  padding: 1.8rem 2rem;
+}
+
+.callout-number {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--gold-light);
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.callout-text {
+  font-size: 0.88rem;
+  color: var(--stone);
+  line-height: 1.6;
+}
+
+/* PRODUCT */
+.product-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.product-intro {
+  max-width: 65ch;
+  font-size: 1.1rem;
+  color: rgba(245, 240, 232, 0.7);
+  line-height: 1.85;
+  margin-bottom: 3rem;
+}
+
+.product-note {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  padding: 0.8rem 1.2rem;
+  border: 1px solid var(--border);
+  display: inline-block;
+}
+
+.product-layers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-bottom: 1.5px;
+}
+
+.layer {
+  background: var(--ink);
+  padding: 2.8rem;
+  position: relative;
+  transition: background 0.4s;
+}
+
+.layer:hover { background: rgba(26, 60, 42, 0.4); }
+
+.layer-number {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: rgba(139, 105, 20, 0.15);
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  line-height: 1;
+}
+
+.layer-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 0.6rem;
+}
+
+.layer-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.55rem;
+  font-weight: 400;
+  color: var(--parchment);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.layer-bullets { list-style: none; margin-top: 1rem; }
+
+.layer-bullets li {
+  font-size: 0.88rem;
+  color: var(--stone);
+  padding: 0.4rem 0 0.4rem 1rem;
+  border-left: 1px solid rgba(139, 105, 20, 0.3);
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.layer:hover .layer-bullets li {
+  color: rgba(245, 240, 232, 0.65);
+  border-color: var(--gold);
+}
+
+/* OUTCOME BOX */
+.outcome-box {
+  background: var(--forest);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--gold);
+  padding: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-top: 0;
+}
+
+.outcome-item { text-align: center; }
+
+.outcome-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+.outcome-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--gold-light);
+  margin-bottom: 0.4rem;
+}
+
+.outcome-body {
+  font-size: 0.85rem;
+  color: var(--stone);
+  line-height: 1.6;
+}
+
+.outcome-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  grid-column: 1 / -1;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.5rem;
+}
+
+/* MVP SECTION */
+.mvp-section {
+  background: rgba(26, 60, 42, 0.2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.mvp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mvp-screen {
+  background: rgba(14, 28, 20, 0.8);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--gold);
+  padding: 0;
+  overflow: hidden;
+}
+
+.mvp-bar {
+  background: var(--forest);
+  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.mvp-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(139, 105, 20, 0.4);
+}
+
+.mvp-url {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--stone);
+  margin-left: 0.5rem;
+}
+
+.mvp-content { padding: 1.5rem; }
+
+.mvp-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.mvp-fund-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1rem;
+  color: var(--parchment);
+}
+
+.mvp-year {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+
+.mvp-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.mvp-metric {
+  background: rgba(26, 60, 42, 0.4);
+  padding: 0.7rem;
+  border-left: 2px solid var(--gold);
+}
+
+.mvp-metric-val {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--gold-light);
+  display: block;
+}
+
+.mvp-metric-lbl {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.mvp-bar-chart { margin-bottom: 0.8rem; }
+
+.mvp-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.mvp-bar-label {
+  font-size: 0.6rem;
+  color: var(--stone);
+  width: 110px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mvp-bar-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(26, 60, 42, 0.4);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.mvp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--moss), var(--gold));
+  border-radius: 1px;
+}
+
+.mvp-bar-pct {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.55rem;
+  color: var(--gold-light);
+  width: 30px;
+  text-align: right;
+}
+
+.mvp-flag {
+  background: rgba(139, 105, 20, 0.1);
+  border-left: 2px solid var(--gold);
+  padding: 0.5rem 0.8rem;
+  font-size: 0.65rem;
+  color: rgba(196, 153, 42, 0.8);
+  font-style: italic;
+}
+
+.mvp-body {
+  font-size: 1.05rem;
+  color: rgba(245, 240, 232, 0.75);
+  line-height: 1.9;
+}
+
+.mvp-body p + p { margin-top: 1.2rem; }
+.mvp-body strong { color: var(--parchment); font-weight: 500; }
+
+.mvp-badge {
+  display: inline-block;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: rgba(26, 60, 42, 0.6);
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  padding: 0.4rem 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+/* DEMO */
+.demo-section {
+  background: var(--forest);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.demo-inner { max-width: 680px; margin: 0 auto; }
+
+.demo-body {
+  font-size: 1.05rem;
+  color: rgba(245, 240, 232, 0.7);
+  line-height: 1.85;
+  margin-bottom: 2.5rem;
+}
+
+.demo-placeholder {
+  border: 1px solid var(--border);
+  background: rgba(14, 28, 20, 0.7);
+  padding: 5rem 3rem;
+  margin: 2.5rem 0;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.demo-placeholder:hover { border-color: var(--gold); }
+
+.demo-play {
+  width: 64px; height: 64px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  transition: all 0.3s;
+}
+
+.demo-placeholder:hover .demo-play { background: var(--gold); }
+
+.demo-play svg {
+  width: 20px; height: 20px;
+  fill: var(--gold-light);
+  margin-left: 3px;
+  transition: fill 0.3s;
+}
+
+.demo-placeholder:hover .demo-play svg { fill: var(--ink); }
+
+.demo-caption {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.demo-coming {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(138, 138, 122, 0.45);
+  margin-top: 0.5rem;
+}
+
+/* ABOUT */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: 6rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-sidebar { position: sticky; top: 8rem; }
+
+.about-ident {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--gold-light);
+  margin-bottom: 0.3rem;
+  line-height: 1.2;
+}
+
+.about-sub {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 2rem;
+}
+
+.about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+
+.about-tag {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--stone);
+  border: 1px solid rgba(139, 105, 20, 0.2);
+  padding: 0.3rem 0.7rem;
+}
+
+.about-body {
+  font-size: 1.05rem;
+  color: rgba(245, 240, 232, 0.75);
+  line-height: 1.95;
+}
+
+.about-body p + p { margin-top: 1.4rem; }
+.about-body strong { color: var(--parchment); font-weight: 500; }
+
+.about-pull {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.45rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gold-light);
+  border-left: 2px solid var(--gold);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  line-height: 1.5;
+}
+
+/* CTA */
+.cta-section {
+  background: var(--forest);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 6rem 4rem;
+}
+
+.cta-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--parchment);
+  margin-bottom: 1rem;
+}
+
+.cta-sub {
+  font-size: 1rem;
+  color: var(--stone);
+  margin-bottom: 3rem;
+  max-width: 45ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-form {
+  display: flex;
+  gap: 0;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.cta-input {
+  flex: 1;
+  background: rgba(14, 28, 20, 0.8);
+  border: 1px solid var(--border);
+  border-right: none;
+  padding: 1rem 1.5rem;
+  color: var(--parchment);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.cta-input:focus { border-color: var(--gold); }
+.cta-input::placeholder { color: var(--stone); }
+
+.cta-submit {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  padding: 1rem 1.8rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.cta-submit:hover { background: var(--gold-light); }
+
+/* FOOTER */
+footer {
+  padding: 2.5rem 4rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.footer-tagline {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: rgba(138, 138, 122, 0.5);
+}
+
+.footer-copy {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: rgba(138, 138, 122, 0.4);
+}
+
+/* HERO LOGO LOCKUP */
+.hero-logo-lockup {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.1s;
+}
+
+.hero-logo-lockup svg {
+  width: 64px;
+  height: 42px;
+  flex-shrink: 0;
+}
+
+.hero-logo-text {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  line-height: 1.3;
+}
+
+.hero-logo-sub {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-top: 0.2rem;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.gold-line-bright {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Commonwealth Perpetua</a>
+  <ul class="nav-links">
+    <li><a href="#problem">The Gap</a></li>
+    <li><a href="#product">Platform</a></li>
+    <li><a href="#mvp">Product</a></li>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="mailto:jzrucker@gmail.com?subject=Commonwealth Perpetua — Demo Request" class="nav-cta">Request a Demo</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Built for the institutions that fund everything else</p>
+  <h1 class="hero-title">Built for the institutions that <em>fund everything else.</em></h1>
+  <p class="hero-sub">University endowments. Pension trusts. Hospital systems. Union benefit funds. They deploy trillions on behalf of the people and missions they serve. They deserve to know exactly what their capital is doing.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Request Access</a>
+    <a href="#product" class="btn-secondary">See the Platform</a>
+  </div>
+</section>
+
+<hr class="gold-line-bright">
+
+<!-- STATS -->
+<div class="stats-bar reveal">
+  <div class="stat">
+    <span class="stat-number">$15T+</span>
+    <span class="stat-label">Institutional LP Capital Deployed in Alternative Investments</span>
+  </div>
+  <div class="stat">
+    <span class="stat-number">10–30</span>
+    <span class="stat-label">Avg. Investment Staff Managing Billions in Commitments</span>
+  </div>
+  <div class="stat">
+    <span class="stat-number">Zero</span>
+    <span class="stat-label">Unified Intelligence Tools Built for the LP Side of the Table</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="problem-grid">
+    <div class="reveal">
+      <span class="section-label">The Gap</span>
+      <h2 class="section-title">Your capital funds these markets. Your visibility into them is <em>almost nothing.</em></h2>
+    </div>
+    <div>
+      <div class="problem-body reveal">
+        <p>A major pension fund. Fifteen investment staff. Hundreds of fund relationships. Thousands of underlying companies across dozens of geographies and asset classes — each one a business your beneficiaries are exposed to whether anyone in your office knows it or not.</p>
+        <p>You receive quarterly statements. Capital call notices. Annual filings. Fund communications. Legal agreements drafted at inception and rarely revisited. Presentations designed to maintain your confidence, not expand your understanding.</p>
+        <p><strong>The capital flows from you. The information flows away from you.</strong> Everything you receive is voluminous, fragmented, and almost none of it synthesized into a unified picture of what your capital is actually doing.</p>
+        <p>Commonwealth Perpetua changes that.</p>
+      </div>
+      <div class="callout-stack" style="margin-top: 1.5rem;">
+        <div class="callout-card reveal">
+          <span class="callout-number">Billions</span>
+          <p class="callout-text">deployed across hundreds of fund relationships. Each fund holds dozens of underlying companies generating your returns. Most investment offices have no unified view of any of it — not because the information doesn't exist, but because nobody has built the infrastructure to synthesize it.</p>
+        </div>
+        <div class="callout-card reveal">
+          <span class="callout-number">Fragmented</span>
+          <p class="callout-text">Capital calls. Distribution notices. Annual filings. Legal agreements. Fund communications. Your investment office receives all of it. None of it arrives as a coherent picture of what your capital is actually doing. That's the gap we close.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product" style="background: var(--ink);">
+  <div class="product-wrap reveal">
+    <span class="section-label">The Platform</span>
+    <h2 class="section-title">Everything you receive. <em>Finally synthesized.</em></h2>
+    <p class="product-intro">Commonwealth Perpetua ingests the full stream of what your investment office already receives — annual filings, capital notices, fund communications, legal agreements, performance statements — and turns it into the independent, unified analytical view you've never had.</p>
+
+    <p class="product-intro" style="margin-top: -1.5rem;">The platform works across two dimensions: <strong style="color:var(--parchment)">external intelligence</strong> — understanding what your capital is doing across fund relationships — and <strong style="color:var(--parchment)">internal efficiency</strong> — giving your office the infrastructure, record-keeping, and operational clarity to run at the level your capital demands. Tax efficiency is one lever. Administration is one lever. Portfolio visibility is one lever. The platform pulls all of them.</p>
+    <div class="product-note">✦ Portfolio Intelligence Now Available — See Product Section Below</div>
+
+    <div class="product-layers">
+      <div class="layer reveal">
+        <span class="layer-number">01</span>
+        <p class="layer-title">Portfolio Intelligence</p>
+        <h3 class="layer-heading">Know what you own.</h3>
+        <ul class="layer-bullets">
+          <li>Map every underlying company your capital is invested in, across every fund relationship</li>
+          <li>See exactly where your returns came from — company by company, not fund by fund</li>
+          <li>Surface concentration risk you didn't know you had</li>
+          <li>Track entries, exits, and deployment activity across your entire book</li>
+        </ul>
+      </div>
+      <div class="layer reveal">
+        <span class="layer-number">02</span>
+        <p class="layer-title">Operational Intelligence</p>
+        <h3 class="layer-heading">Know what's happening.</h3>
+        <ul class="layer-bullets">
+          <li>Synthesize capital calls, distributions, and agreement updates into a single signal stream</li>
+          <li>Understand what fund managers are doing — not just what they're telling you</li>
+          <li>Administrative infrastructure that catalogs your full fund relationship history</li>
+          <li>Real-time awareness across hundreds of fund communications</li>
+        </ul>
+      </div>
+      <div class="layer reveal">
+        <span class="layer-number">03</span>
+        <p class="layer-title">Financial Intelligence</p>
+        <h3 class="layer-heading">Know what it's worth.</h3>
+        <ul class="layer-bullets">
+          <li>Independent valuation analysis of underlying companies — your own view, not theirs</li>
+          <li>Tax efficiency analysis across your entire alternative investment exposure</li>
+          <li>Fee impact modeling — the true cost of each fund relationship, quantified</li>
+          <li>Performance benchmarking across managers and vintage years</li>
+        </ul>
+      </div>
+      <div class="layer reveal">
+        <span class="layer-number">04</span>
+        <p class="layer-title">Internal Efficiency</p>
+        <h3 class="layer-heading">Operate with the clarity your mission demands.</h3>
+        <ul class="layer-bullets">
+          <li>Tax efficiency analysis across your alternative investment exposure — surfacing opportunities your current advisors may not have visibility into</li>
+          <li>Record-keeping and administrative infrastructure built for the volume and complexity your office actually manages</li>
+          <li>Co-investment and direct investment identification as your office develops deeper independent capability</li>
+          <li>The foundation to steward your capital with the rigor and confidence your beneficiaries deserve</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- OUTCOME BOX -->
+    <div class="outcome-box reveal">
+      <p class="outcome-label">What You Get</p>
+      <div class="outcome-item">
+        <span class="outcome-icon">⟳</span>
+        <p class="outcome-title">Higher Returns</p>
+        <p class="outcome-body">Better visibility leads to better decisions. Tax efficiency, fee optimization, and concentration awareness compound over time into meaningfully higher performance.</p>
+      </div>
+      <div class="outcome-item">
+        <span class="outcome-icon">◎</span>
+        <p class="outcome-title">Better Stewardship</p>
+        <p class="outcome-body">Your beneficiaries — retirees, students, patients, workers — are better served when the capital stewarded on their behalf is managed with the clarity it deserves.</p>
+      </div>
+      <div class="outcome-item">
+        <span class="outcome-icon">→</span>
+        <p class="outcome-title">More Time for the Mission</p>
+        <p class="outcome-body">When your investment office has the infrastructure it needs, your team spends less time managing complexity and more time on the work that actually matters.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="gold-line-bright">
+
+<!-- MVP -->
+<section class="mvp-section" id="mvp">
+  <div class="mvp-grid">
+    <div class="mvp-screen reveal">
+      <div class="mvp-bar">
+        <div class="mvp-dot"></div>
+        <div class="mvp-dot"></div>
+        <div class="mvp-dot"></div>
+        <span class="mvp-url">commonwealth-perpetua · portfolio intelligence</span>
+      </div>
+      <div class="mvp-content">
+        <div class="mvp-header-row">
+          <span class="mvp-fund-name">Infrastructure Fund — Tax Year 2024</span>
+          <span class="mvp-year">LP View</span>
+        </div>
+        <div class="mvp-metrics">
+          <div class="mvp-metric">
+            <span class="mvp-metric-val">$56M+</span>
+            <span class="mvp-metric-lbl">Total LP Return</span>
+          </div>
+          <div class="mvp-metric">
+            <span class="mvp-metric-val">20</span>
+            <span class="mvp-metric-lbl">Underlying Companies</span>
+          </div>
+          <div class="mvp-metric">
+            <span class="mvp-metric-val">High</span>
+            <span class="mvp-metric-lbl">Concentration Flag</span>
+          </div>
+        </div>
+        <div class="mvp-bar-chart">
+          <div class="mvp-bar-row">
+            <span class="mvp-bar-label">Company A</span>
+            <div class="mvp-bar-track"><div class="mvp-bar-fill" style="width:82%"></div></div>
+            <span class="mvp-bar-pct">82%</span>
+          </div>
+          <div class="mvp-bar-row">
+            <span class="mvp-bar-label">Company B</span>
+            <div class="mvp-bar-track"><div class="mvp-bar-fill" style="width:7%"></div></div>
+            <span class="mvp-bar-pct">7%</span>
+          </div>
+          <div class="mvp-bar-row">
+            <span class="mvp-bar-label">Company C</span>
+            <div class="mvp-bar-track"><div class="mvp-bar-fill" style="width:5%"></div></div>
+            <span class="mvp-bar-pct">5%</span>
+          </div>
+          <div class="mvp-bar-row">
+            <span class="mvp-bar-label">17 other companies</span>
+            <div class="mvp-bar-track"><div class="mvp-bar-fill" style="width:6%"></div></div>
+            <span class="mvp-bar-pct">6%</span>
+          </div>
+        </div>
+        <div class="mvp-flag">⚑ Significant return concentration in a single underlying company — exposure your quarterly statement does not reflect.</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <span class="mvp-badge">✦ Available Now</span>
+      <span class="section-label">The Product</span>
+      <h2 class="section-title">Portfolio Intelligence. <em>Live today.</em></h2>
+      <div class="mvp-body">
+        <p>Upload your annual fund filing and Commonwealth Perpetua maps every underlying company in your portfolio, weights the return contribution of each, and surfaces what you didn't know you were concentrated in.</p>
+        <p><strong>What your quarterly statement shows you:</strong> total fund return. What Commonwealth Perpetua shows you: 82% of that return came from one Gulf Coast drilling company — exposure buried in documents your investment office receives but has never had the tools to synthesize.</p>
+        <p>This is one entry point into the platform. The full product ingests everything — filings, capital notices, communications, agreements — and builds the unified picture your office has never had.</p>
+        <p>Request access to see it with your own fund data.</p>
+      </div>
+      <div style="margin-top: 2rem;">
+        <a href="#contact" class="btn-primary">Request Access</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-section" id="demo">
+  <div class="demo-inner reveal">
+    <span class="section-label">The Demo</span>
+    <h2 class="section-title">See it in <em>the room.</em></h2>
+    <p class="demo-body">A 15-minute demonstration — from portfolio intelligence dashboard to live scenario showing what an investment office looks like when it actually knows what it owns.</p>
+    <div class="demo-placeholder">
+      <div class="demo-play">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <p class="demo-caption">Commonwealth Perpetua — Platform Demonstration</p>
+      <p class="demo-coming">Coming Soon</p>
+    </div>
+    <a href="#contact" class="btn-primary">Get Notified When It's Live</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background: var(--ink);">
+  <div class="about-grid">
+    <div class="about-sidebar reveal">
+      <span class="section-label">About</span>
+      <p class="about-ident">Built from the inside out.</p>
+      <p class="about-sub">By someone who has been in these rooms.</p>
+      <div class="about-tags">
+        <span class="about-tag">CPA</span>
+        <span class="about-tag">JD</span>
+        <span class="about-tag">8 Years Institutional</span>
+        <span class="about-tag">AI Systems</span>
+        <span class="about-tag">Production Builder</span>
+      </div>
+    </div>
+    <div class="about-body reveal">
+      <p>Commonwealth Perpetua was built by someone who spent eight years as a primary advisor to institutional investors at PwC — Ivy League endowments, the largest union benefit trusts in the world, hospital systems, church retirement plans, military contractors.</p>
+      <p>Not as an outside observer. Deep in their portfolios, their operations, and the filings that everyone else treated as compliance inputs and we read as something else entirely.</p>
+      <div class="about-pull">"The intelligence was always there. It was just going to the wrong people."</div>
+      <p>We have built production AI systems in institutional investment contexts that eliminated hundreds of manual hours and identified tens of millions in incremental value. We understand the culture, the constraints, and the language of the rooms where these decisions get made — and we understand what AI can actually do in production environments because we have built systems that do it.</p>
+      <p>Commonwealth Perpetua exists because the institutions that steward retirement security, education, healthcare, and worker benefits deserve infrastructure that matches the scale and importance of what they manage.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="gold-line-bright">
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="reveal">
+    <p class="section-label">Get Started</p>
+    <h2 class="cta-title">The LP is where it all begins.</h2>
+    <p class="cta-sub">Request access to the portfolio intelligence platform or schedule a conversation about your investment office.</p>
+    <div class="cta-form">
+      <input type="email" class="cta-input" placeholder="Your institutional email">
+      <button class="cta-submit">Request Access</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">Commonwealth Perpetua</span>
+  <span class="footer-tagline">Legacy & Institutional Investor Portfolio Intelligence</span>
+  <span class="footer-copy">© 2026 Commonwealth Perpetua. Confidential.</span>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.querySelector('.cta-submit').addEventListener('click', () => {
+  const input = document.querySelector('.cta-input');
+  const email = input.value.trim();
+  if (email) {
+    window.location.href = `mailto:jzrucker@gmail.com?subject=Commonwealth Perpetua — Demo Request&body=Demo request from: ${email}`;
+    input.value = '';
+    input.placeholder = "Request received — we'll be in touch.";
+    input.style.borderColor = 'var(--gold)';
+  }
+});
+</script>
+</body>
+</html>
